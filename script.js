@@ -45,7 +45,6 @@ async function covidprovince(){
     const resp = await res.json();
     console.log(resp);
     const prov = resp.Province;
-    const cunt = [];
     const sum = [];
     let ans = "";
     let ans2 = "";
@@ -55,19 +54,17 @@ async function covidprovince(){
     
      for(let i=0;i<prov.length;i++){
          sum.push(prov[i].Count);
-         cunt.push(prov[i].Province);
      }
      console.log(sum);
-     console.log(cunt);
         const a = nthlargest(sum, 1);
         const b = nthlargest(sum, 2);
         const c = nthlargest(sum, 3);
         const d = nthlargest(sum, 4);
         const e = nthlargest(sum, 5);
+
+     
      for(let i=0;i<prov.length;i++){
-        
         if(prov[i].Count === Number(a)){
-            
             ans = (prov[i].Province);
         }
     }
@@ -91,21 +88,6 @@ async function covidprovince(){
             ans5 = (prov[i].Province);
         } 
     }
-    // for(let i=0;i<prov.length;i++){
-    //     if(sum[i] === nthlargest(sum, 3)){
-    //         console.log(cunt[i]);
-    //     }
-    // }
-    // for(let i=0;i<prov.length;i++){
-    //     if(sum[i] === nthlargest(sum, 4)){
-    //         console.log(cunt[i]);
-    //     }
-    // }
-    // for(let i=0;i<prov.length;i++){
-    //     if(sum[i] === nthlargest(sum, 5)){
-    //         console.log(cunt[i]);
-    //     }
-    // }
     number1.innerHTML =  (nthlargest(sum, 1)); 
     number2.innerHTML =  (nthlargest(sum, 2)); 
     number3.innerHTML =  (nthlargest(sum, 3)); 
@@ -116,9 +98,7 @@ async function covidprovince(){
     province3.innerHTML = ans3;
     province4.innerHTML = ans4;
     province5.innerHTML = ans5;
-     
 } 
-
 function Months(month){
     if(month === 1){
             return "ม.ค."
@@ -157,45 +137,6 @@ function Months(month){
         return "ธ.ค."
     }
 }
-
-
-// function nthlargest(arra,highest){
-//     var x = 0,
-//         y = 0,
-//         z = 0,
-//         temp = 0,
-//         tnum = arra.length, 
-//         flag = false, 
-//         result = false; 
-//     while(x < tnum){
-//         y = x + 1;    
-//         if(y < tnum){
-//             for(z = y; z < tnum; z++){ 
-//                 if(arra[x] < arra[z]){
-//                     temp = arra[z];
-//                     arra[z] = arra[x];
-//                     arra[x] = temp;
-//                     flag = true; 
-//                 }else{
-//                     continue;
-//                 }	
-//             }					
-//         }
-//         if(flag){
-//             flag = false;
-//         }else{
-//             x++; 
-//             if(x === highest){    
-//                 result = true;
-//             }	
-//         }
-//         if(result){
-//             break;
-//         }
-//     }
-//     return (arra[(highest - 1)]);	
-// }
-
 function nthlargest(arra,highest){
     var x = 0,
         y = 0,
@@ -232,7 +173,5 @@ function nthlargest(arra,highest){
     }
     return (arra[(highest - 1)]);	
 }
-
-
 covidprovince()
 
