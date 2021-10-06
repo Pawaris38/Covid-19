@@ -1,5 +1,5 @@
-const covidapi = "https://covid19.th-stat.com/json/covid19v2/getTodayCases.json";
-const covidprovinceapi = "https://covid19.th-stat.com/json/covid19v2/getSumCases.json";
+const covidapi = "https://covid19.ddc.moph.go.th/api/Cases/today-cases-all";
+const covidprovinceapi = "https://covid19.ddc.moph.go.th/api/Cases/today-cases-by-provinces";
 
 const newConfirmed = document.getElementById("NewConfirmed");
 const newRecovered = document.getElementById("NewRecovered");
@@ -32,30 +32,32 @@ async function covid(){
     const respData = await resp.json();
     // console.log(respData);
    
-newConfirmed.innerHTML = "+"+ respData.NewConfirmed;
-newRecovered.innerHTML = "+"+ respData.NewRecovered;
-confirmed.innerHTML = respData.Confirmed;
-newDeaths.innerHTML = respData.NewDeaths;
-recovered.innerHTML = respData.Recovered;
-hospitalized.innerHTML = respData.Hospitalized;
+newConfirmed.innerHTML = "+"+ respData[0].new_case;
+newRecovered.innerHTML = "+"+ respData[0].new_recovered;
+confirmed.innerHTML = respData[0].total_case;
+newDeaths.innerHTML = respData[0].new_death;
+recovered.innerHTML = respData[0].total_recovered;
+hospitalized.innerHTML = respData[0].total_case - respData[0].total_recovered;
 }
 covid();
 async function covidprovince(){
     const res = await fetch(covidprovinceapi);
     const resp = await res.json();
     console.log(resp);
-    const prov = resp.Province;
+    let prov = [];
     const sum = [];
+    const provincelengt = 78;
     let ans = "";
     let ans2 = "";
     let ans3 = "";
     let ans4 = "";
     let ans5 = "";
     
-     for(let i=0;i<prov.length;i++){
-         sum.push(prov[i].Count);
-     }
-     console.log(sum);
+     for(let i=0;i<provincelengt;i++){
+       prov = resp[i];
+       sum.push(prov.total_case); 
+     }  
+  
         const a = nthlargest(sum, 1);
         const b = nthlargest(sum, 2);
         const c = nthlargest(sum, 3);
@@ -63,30 +65,36 @@ async function covidprovince(){
         const e = nthlargest(sum, 5);
 
      
-     for(let i=0;i<prov.length;i++){
-        if(prov[i].Count === Number(a)){
-            ans = (prov[i].Province);
+     for(let i=0;i<provincelengt;i++){
+        prov = resp[i];
+        if(prov.total_case === Number(a)){
+            ans = (prov.province);
         }
     }
-    for(let i=0;i<prov.length;i++){
-        if(prov[i].Count === Number(b)){
-            ans2 = (prov[i].Province);
-        } 
+    for(let i=0;i<provincelengt;i++){
+        prov = resp[i];
+        if(prov.total_case === Number(b)){
+            ans2 = (prov.province);
+        }
     }
-    for(let i=0;i<prov.length;i++){
-        if(prov[i].Count === Number(c)){
-            ans3 = (prov[i].Province);
+    for(let i=0;i<provincelengt;i++){
+        prov = resp[i];
+        if(prov.total_case === Number(c)){
+            ans3 = (prov.province);
         }
     }
    
-    for(let i=0;i<prov.length;i++){
-        if(prov[i].Count === Number(d)){
-            ans4 = (prov[i].Province);
-        } 
-    } for(let i=0;i<prov.length;i++){
-        if(prov[i].Count === Number(e)){
-            ans5 = (prov[i].Province);
-        } 
+    for(let i=0;i<provincelengt;i++){
+        prov = resp[i];
+        if(prov.total_case === Number(d)){
+            ans4 = (prov.province);
+        }
+    }
+    for(let i=0;i<provincelengt;i++){
+        prov = resp[i];
+        if(prov.total_case === Number(e)){
+            ans5 = (prov.province);
+        }
     }
     number1.innerHTML =  (nthlargest(sum, 1)); 
     number2.innerHTML =  (nthlargest(sum, 2)); 
@@ -137,6 +145,7 @@ function Months(month){
         return "ธ.ค."
     }
 }
+//find Maxvalue
 function nthlargest(arra,highest){
     var x = 0,
         y = 0,
