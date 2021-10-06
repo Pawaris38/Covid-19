@@ -32,18 +32,18 @@ async function covid(){
     const respData = await resp.json();
     // console.log(respData);
    
-newConfirmed.innerHTML = "+"+ respData[0].new_case;
-newRecovered.innerHTML = "+"+ respData[0].new_recovered;
-confirmed.innerHTML = respData[0].total_case;
-newDeaths.innerHTML = respData[0].new_death;
-recovered.innerHTML = respData[0].total_recovered;
-hospitalized.innerHTML = respData[0].total_case - respData[0].total_recovered;
+newConfirmed.innerHTML = "+"+ commafy(respData[0].new_case);
+newRecovered.innerHTML = "+"+ commafy( respData[0].new_recovered);
+confirmed.innerHTML =  commafy(respData[0].total_case);
+newDeaths.innerHTML =  commafy(respData[0].new_death);
+recovered.innerHTML =  commafy(respData[0].total_recovered);
+hospitalized.innerHTML =  commafy(respData[0].total_case - respData[0].total_recovered);
 }
 covid();
 async function covidprovince(){
     const res = await fetch(covidprovinceapi);
     const resp = await res.json();
-    console.log(resp);
+    // console.log(resp);
     let prov = [];
     const sum = [];
     const provincelengt = 78;
@@ -96,11 +96,11 @@ async function covidprovince(){
             ans5 = (prov.province);
         }
     }
-    number1.innerHTML =  (nthlargest(sum, 1)); 
-    number2.innerHTML =  (nthlargest(sum, 2)); 
-    number3.innerHTML =  (nthlargest(sum, 3)); 
-    number4.innerHTML =  (nthlargest(sum, 4)); 
-    number5.innerHTML =  (nthlargest(sum, 5)); 
+    number1.innerHTML =   commafy((nthlargest(sum, 1))); 
+    number2.innerHTML =   commafy((nthlargest(sum, 2))); 
+    number3.innerHTML =   commafy((nthlargest(sum, 3))); 
+    number4.innerHTML =   commafy((nthlargest(sum, 4))); 
+    number5.innerHTML =   commafy((nthlargest(sum, 5))); 
     province1.innerHTML = ans; 
     province2.innerHTML = ans2;
     province3.innerHTML = ans3;
@@ -182,5 +182,18 @@ function nthlargest(arra,highest){
     }
     return (arra[(highest - 1)]);	
 }
+
+//add comma every 3 digits
+function commafy( num ) {
+    var str = num.toString().split('.');
+    if (str[0].length >= 3) {
+        str[0] = str[0].replace(/(\d)(?=(\d{3})+$)/g, '$1,');
+    }
+    if (str[1] && str[1].length >= 5) {
+        str[1] = str[1].replace(/(\d{3})/g, '$1 ');
+    }
+    return str.join('.');
+}
+
 covidprovince()
 
