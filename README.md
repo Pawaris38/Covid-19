@@ -1,2 +1,2 @@
 # Covid-19
-#DEMO:
+# DEMO: https://covid-19-72726.web.app
